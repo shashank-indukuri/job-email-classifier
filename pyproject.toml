@@ -1,0 +1,25 @@
+[project]
+name = "job-email-classifier"
+version = "1.0.0"
+description = "AI-powered job application email classifier using Groq and Gmail API"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Job Email Classifier Contributors" }
+]
+readme = "README.md"
+keywords = ["email", "classifier", "job-search", "gmail", "ai", "groq"]
+
+dependencies = [
+    "beautifulsoup4>=4.12.0",
+    "google-api-python-client>=2.150.0",
+    "google-auth-oauthlib>=1.2.0",
+    "groq>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "streamlit>=1.49.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/job-email-classifier"
+Repository = "https://github.com/yourusername/job-email-classifier"
+Issues = "https://github.com/yourusername/job-email-classifier/issues"
