@@ -160,7 +160,7 @@ MIT License - feel free to use, modify, and share!
 
 ## 🙏 Acknowledgments
 
-Built with ❤️ for the job-seeking community. If this helps you land your dream job, consider:
+Built for the job-seeking community. If this helps you land your dream job, consider:
 - ⭐ Starring the repo
 - 🐛 Reporting issues
 - 🤝 Contributing improvements
@@ -176,4 +176,4 @@ Built with ❤️ for the job-seeking community. If this helps you land your dre
 
 ---
 
-Made with ❤️ for job seekers everywhere. Good luck with your applications! 🍀
+Made for job seekers everywhere. Good luck with your applications! 🍀
