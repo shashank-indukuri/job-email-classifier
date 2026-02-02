@@ -58,15 +58,40 @@ Automatically categorizes your job emails into:
 
 4. **Setup Gmail API**
    
-   a. Go to [Google Cloud Console](https://console.cloud.google.com/)
+   a. **Create a Google Cloud Project**
+      - Go to [Google Cloud Console](https://console.cloud.google.com/)
+      - Click "Select a project" → "New Project"
+      - Enter a project name (e.g., "Job Email Classifier")
+      - Click "Create"
    
-   b. Create a new project
+   b. **Enable Gmail API**
+      - In the search bar at the top, search for "Gmail API"
+      - Click on "Gmail API" in the results
+      - Click "Enable"
    
-   c. Enable Gmail API
+   c. **Configure OAuth Consent Screen**
+      - Go to "APIs & Services" → "OAuth consent screen"
+      - Select "External" user type → Click "Create"
+      - Fill in required fields:
+        - App name: "Job Email Classifier"
+        - User support email: Your email
+        - Developer contact: Your email
+      - Click "Save and Continue"
+      - On "Scopes" page, click "Save and Continue"
+      - On "Test users" page, click "Add Users" and add your Gmail address
+      - Click "Save and Continue"
    
-   d. Create OAuth 2.0 credentials (Desktop application)
+   d. **Create OAuth 2.0 Credentials**
+      - Go to "APIs & Services" → "Credentials"
+      - Click "Create Credentials" → "OAuth client ID"
+      - Select "Desktop app" as application type
+      - Enter a name (e.g., "Job Classifier Desktop")
+      - Click "Create"
    
-   e. Download credentials and save as `credentials.json` in project folder
+   e. **Download and Configure Credentials**
+      - Click "Download JSON" on the credentials you just created
+      - Save the file as `credentials.json` in your project folder
+      - Click "Save"
 
 5. **Verify setup**
    ```bash
