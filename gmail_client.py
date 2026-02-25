@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 
 from google.auth.transport.requests import Request
+from google.auth.exceptions import RefreshError
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
@@ -26,30 +27,44 @@ class GmailClient:
     def authenticate(self) -> bool:
         """Authenticate with Gmail API"""
         creds = None
-        
-        # Load existing token
-        if os.path.exists(self.token_file):
-            creds = Credentials.from_authorized_user_file(self.token_file, SCOPES)
-        
-        # Refresh or get new credentials
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                if not os.path.exists('credentials.json'):
-                    print("❌ credentials.json not found!")
-                    print("📋 Please download OAuth credentials from Google Cloud Console")
-                    return False
-                
-                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
-                creds = flow.run_local_server(port=0)
-            
-            # Save credentials
-            with open(self.token_file, 'w') as token:
-                token.write(creds.to_json())
-        
-        self.service = build('gmail', 'v1', credentials=creds)
-        return True
+
+        try:
+            # Load existing token
+            if os.path.exists(self.token_file):
+                creds = Credentials.from_authorized_user_file(self.token_file, SCOPES)
+
+            # Refresh or get new credentials
+            if not creds or not creds.valid:
+                if creds and creds.expired and creds.refresh_token:
+                    try:
+                        creds.refresh(Request())
+                    except RefreshError:
+                        if os.path.exists(self.token_file):
+                            os.remove(self.token_file)
+                        creds = None
+
+                if creds is None or not creds.valid:
+                    if not os.path.exists('credentials.json'):
+                        print("credentials.json not found!")
+                        print("Please download OAuth credentials from Google Cloud Console")
+                        return False
+
+                    flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+                    creds = flow.run_local_server(
+                        port=0,
+                        prompt="consent",
+                        access_type="offline"
+                    )
+
+                # Save credentials
+                with open(self.token_file, 'w') as token:
+                    token.write(creds.to_json())
+
+            self.service = build('gmail', 'v1', credentials=creds)
+            return True
+        except Exception as error:
+            print(f'Authentication failed: {error}')
+            return False
     
     def get_unlabeled_emails(self, days: int = 7, max_results: int = 50) -> List[Dict]:
         """Fetch emails that haven't been labeled by our system"""
